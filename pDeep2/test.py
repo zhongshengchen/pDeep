@@ -14,8 +14,11 @@ n = 1
 
 ion_types = ['b{}', 'y{}']
 
-model_folder = './tf-models/model-no-transfer'
-model_name = 'mixed-180322-multi_ce_layer.ckpt'
+# model_folder = './tf-models/model-no-transfer'
+# model_name = 'mixed-180322-multi_ce_layer.ckpt'
+
+model_folder = './tf-models/example/'
+model_name = 'example.ckpt'
 
 unmod_config = fconfig.HCD_Config()
 unmod_config.time_step = 100
@@ -33,20 +36,21 @@ pho_config.SetIonTypes(ion_types)
 pho_config.min_var_mod_num = 1
 pho_config.max_var_mod_num = 3
 
-QEHO = "../datasets/Olsen-CellSys-2017/Hela-QE-28/plabel"
-QE293O = "../datasets/Olsen-CellSys-2017/293T-QE-28/plabel"
-PT25_ts = "../datasets/zengwenfeng-ProteomeTools/plabel/HCD25/test"
-PT30_ts = "../datasets/zengwenfeng-ProteomeTools/plabel/HCD30/test"
-PT35_ts = "../datasets/zengwenfeng-ProteomeTools/plabel/HCD35/test"
-VlsMilkK = "../datasets/Kuster-Human-Nature-2014/milk-Velos-40/plabel"
-VlsRtmK = "../datasets/Kuster-Human-Nature-2014/rectum-Velos-30/plabel"
-EltStmK = "../datasets/Kuster-Human-Nature-2014/stomach-Elite-30/plabel"
-VlsFGP = "../datasets/Pandey-Human-Nature-2014/Fetal_Gut_Gel_Velos_72_CE35/plabel"
-VlsFBP = "../datasets/Pandey-Human-Nature-2014/Fetal_Brain_Gel_Velos_16_CE39/plabel"
-VlsPhoSyn = "../datasets/Mann-PhoSyn-NBT-2011-Velos-40/plabel"
-QEHchyO = "../datasets/Olsen-CellSys-2017/HelaChymo-QE-28/plabel"
-QEHgluO = "../datasets/Olsen-CellSys-2017/HelaGluC-QE-28/plabel"
-QEHlysO = "../datasets/Olsen-CellSys-2017/HelaLysC-QE-28/plabel"
+
+QEHO = "./data/ProteomeTools"
+QE293O = "./data/ProteomeTools"
+PT25_ts = "./data/ProteomeTools"
+PT30_ts = "./data/ProteomeTools"
+PT35_ts = "./data/ProteomeTools"
+VlsMilkK = "./data/ProteomeTools"
+VlsRtmK = "./data/ProteomeTools"
+EltStmK = "./data/ProteomeTools"
+VlsFGP = "./data/ProteomeTools"
+VlsFBP = "./data/ProteomeTools"
+VlsPhoSyn = "./data/ProteomeTools"
+QEHchyO = "./data/ProteomeTools"
+QEHgluO = "./data/ProteomeTools"
+QEHlysO = "./data/ProteomeTools"
 
 pdeep = lstm.IonLSTM(unmod_config)
 
@@ -69,7 +73,7 @@ with open(os.path.join(model_folder, 'log/test_%s.txt'%model_name),'w') as log_o
         output_buckets = pdeep.Predict(buckets)
         pcc, cos, spc, kdt, SA = sim_calc.CompareRNNPredict_buckets_tf(output_buckets, buckets)
         sim_names = ['PCC', 'COS', 'SPC', 'KDT', 'SA']
-        print("[A] " + str(evaluate.cum_plot([pcc, cos, spc, kdt, SA], sim_names, saveplot = os.path.join(plot_folder, saveplot+'.eps'), print_file = log_out)), file = log_out)
+        print("[A] " + str(evaluate.cum_plot([pcc, cos, spc, kdt, SA], sim_names, bin = 200, saveplot = os.path.join(plot_folder, saveplot+'.eps'), print_file = log_out)), file = log_out)
         print('####################### End Unmod #######################', file = log_out)
         print("", file = log_out)
         
@@ -88,7 +92,7 @@ with open(os.path.join(model_folder, 'log/test_%s.txt'%model_name),'w') as log_o
         output_buckets = pdeep.Predict(buckets)
         pcc, cos, spc, kdt, SA = sim_calc.CompareRNNPredict_buckets_tf(output_buckets, buckets)
         sim_names = ['PCC', 'COS', 'SPC', 'KDT', 'SA']
-        print("[A] " + str(evaluate.cum_plot([pcc, cos, spc, kdt, SA], sim_names, saveplot = os.path.join(plot_folder, saveplot+mod+'.eps'), print_file = log_out)), file = log_out)
+        print("[A] " + str(evaluate.cum_plot([pcc, cos, spc, kdt, SA], sim_names, bin = 200, saveplot = os.path.join(plot_folder, saveplot+mod+'.eps'), print_file = log_out)), file = log_out)
         print('######################## End Mod ########################', file = log_out)
         print("\n", file = log_out)
 

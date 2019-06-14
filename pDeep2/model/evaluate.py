@@ -46,7 +46,7 @@ def median_val(sims, print_name = None, print_file = sys.stdout):
     print("[R] {:.3f} median {}".format(np.median(sims), print_name), file = print_file)
     return (med_name(print_name), np.median(sims))
     
-def cum_plot(sim_list, sim_names, thres_list, bin = 200, saveplot = None, print_file = sys.stdout):
+def cum_plot(sim_list, sim_names, bin = 200, saveplot = None, print_file = sys.stdout):
     x_val = np.linspace(0,bin+1,bin+1)/bin
     df = pd.DataFrame(x_val,columns=['Sim = x'])
     ax = get_ax()

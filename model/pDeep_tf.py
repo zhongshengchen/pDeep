@@ -4,7 +4,7 @@ import os
 import sys
 import tensorflow as tf
 
-from .bucket_utils import *
+from bucket_utils import *
 
 np.random.seed(1337) # for reproducibility
 tf.set_random_seed(1337)
